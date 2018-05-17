@@ -134,8 +134,8 @@ What are the development User Stories?
 
 ### Demo Scenario ###
 1. Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
-![HeatMap of Interface Utilization]
-(https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
+
+![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
 
 2. 
 
