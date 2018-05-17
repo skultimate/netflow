@@ -137,9 +137,14 @@ What are the development User Stories?
 
 ![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
 2. Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
+
 3. Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
 
 ![Interface Utilization Details](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface_Utilization_Details.png)
+
+4. On the same chart, show the interface utilization traffic based on various categories
+
+![Interface Utilization Details Categorized](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Utilization_Details_Categorized.png)
 
 
 ### Non-Functional User Stories (not covered) ###
