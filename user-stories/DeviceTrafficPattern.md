@@ -132,14 +132,133 @@ What are the development User Stories?
 6. Database and Dashboard may be delivered as container(s) as part of demo.
 
 
-### Demo Scenario ###
-1. Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
+### Tasks ###
+
+1. Netflow Data Collector publishes flow data on the KAFKA bus.
+2. Netflow data shall be made available on "PERFORMANCE" topic for subscription. Example of Netflow data on Kafka bus shown below:
+
+```json
+{
+  "groupName" : "group",
+  "variable" : "NbFlowPerExporter1.1.1.10numFlowsNF",
+  "timestamp" : 1526370271,
+  "value" : 30.0,
+  "action" : "\u0000",
+  "properties" : {
+    "unit" : "nb",
+    "vstatus" : "active",
+    "ip" : "10.31.119.134",
+    "name" : "numFlowsNF",
+    "source" : "Netflow",
+    "bunit" : "Default",
+    "direction" : "0",
+    "customer" : "Default"
+  },
+  "metrics" : {
+    "numFlowsNF" : {
+      "properties" : {
+        "unit" : "nb",
+        "name" : "numFlowsNF"
+      },
+      "value" : 30.0
+    }
+  },
+  "relations" : [ ],
+  "initialized" : true,
+  "forceRefresh" : false
+}
+```
+
+3. K4M queries Topology Service to get "Max Interface Speed" for the specific device based on IP address
+
+```json
+    {
+        "aggregateTags": [
+        ],
+        "dps": {
+            "1525305600": 5944000
+        },
+        "metric": "ifOutOctetsNF",
+        "tags": {
+            "ip": "10.31.119.134",
+            "name": "ifOutOctetsNF",
+            "unit": "bytes"
+        },
+        "topology": {
+            "creationDate": "2018-05-04T18:43:39+05:30",
+            "hierarchy": "Interface,NetworkAdapter,ICIM_NetworkAdapter,EMC_NetworkPort,CIM_NetworkPort,CIM_LogicalPort,ICIM_LogicalDevice,CIM_LogicalDevice,CIM_EnabledLogicalElement,ICIM_LogicalElement,CIM_LogicalElement,ICIM_ManagedSystemElement,CIM_ManagedSystemElement,ICIM_ManagedElement,CIM_ManagedElement",
+            "name": "Interface::IF-10.31.117.5/10101",
+            "topoProperties": {
+                "Description": "GigabitEthernet0/1",
+                "DisplayName": "IF-10.31.117.5/10101 [Gi0/1] [10.31.119.134]",
+                "MaxSpeed": "10000000",
+                "Name": "IF-10.31.117.5/10101"
+            },
+            "type": "Interface"
+        }
+    },
+```
+4. K4M consumes Netflow data to compute In and Out Utilization KPI's every 5 min time window
+5. K4M annonates computed KPI's with additional metadata (IP address, Device Name etc.) as tags
+6. K4M publishes aggregated computed KPI back to KAFKA bus on a specific peformance topic.
+
+```json
+{
+  "groupName" : "group",
+  "variable" : "IN Utilization",
+  "timestamp" : 1526370271,
+  "value" : 80.0,
+  "metrics" : {
+    "inUtilization" : {
+      "properties" : {
+        "unit" : "percentage",
+        "name" : "inUtilization"
+      },
+      "value" : 80.0
+    }
+  },
+  "relations" : [ ],
+  "initialized" : true,
+  "forceRefresh" : false
+}
+```
+
+7. TSDB Service stores raw metrics and K4M computed KPI's stores them TSDB datastore
+
+```
+TS#     			Metric      		Value	Tags          
+---------------------------------------------------------------------------------------------------------
+1526370271	   inUtilization    80.0   		Name=IF-10.31.117.5/10101 [Gi0/1] [10.31.119.134], IP=10.31.119.134
+1526370470	   inUtilization    82.0   		Name=IF-10.31.117.5/10101 [Gi0/1] [10.31.119.134], IP=10.31.119.134
+1526370670	   inUtilization    84.0   		Name=IF-10.31.117.5/10101 [Gi0/1] [10.31.119.134], IP=10.31.119.134
+1526370271	   outUtilization   70.0   		Name=IF-10.31.117.5/10101 [Gi0/1] [10.31.119.134], IP=10.31.119.134
+1526370470	   inUtilization    72.0   		Name=IF-10.31.117.5/10101 [Gi0/1] [10.31.119.134], IP=10.31.119.134
+1526370670	   inUtilization    74.0   		Name=IF-10.31.117.5/10101 [Gi0/1] [10.31.119.134], IP=10.31.119.134
+```
+8. OpenTSDB is configured to do the following:
+   - Store K4M computed 5 min KPI
+   - Downsample K4M computed 5 min KPI's to every 1 hour, 1 day and 1 week
+   - Downsample raw metrics from the collector every 1 hour, 1 day and 1week
+   
+9. Grafana is configured to show following reports:
+
+- Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
+
 ![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
-2. Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
-3. Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
+
+- Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
+
+- Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
+
 ![Interface Utilization Details](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface_Utilization_Details.png)
-4. On the same chart, show the interface utilization traffic based on various categories
+
+- On the same chart, show the interface utilization traffic based on various categories
+
 ![Interface Utilization Details Categorized](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Utilization_Details_Categorized.png)
+
+10. Alerting rules in Grafana is configured to trigger WARNING Alert when Out Utilization > 50% for 30 mins for last hour.
+
+
 
 
 ### Non-Functional User Stories (not covered) ###
