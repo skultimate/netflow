@@ -75,52 +75,20 @@ What are the development User Stories?
 1. Show data points of IN and OUT Utilization(%) traffic for last hour in a table and time series dotted plot for specific Interface in a device.
 2. Show  Avg, Max, IN and OUT Utilization(%) traffic for last 1 hour in a table for or specific Interface in a device.
 
+- Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
 
-###User Story #4 - Create new KPI Definition ###
+![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
 
-1. KPI Admin logs into the KPI Engine.
-2. Home screen shows *KPI Activity Feed* with the list of KPI Definitions and KPI Streams available in the KPI engine.
-2. KPI Admin Clicks on *Create KPI Definition* button.
-3. KPI Definition screeen opens with list of options  and KPI admin feeds input to calcuate the KPI : 
-      - **Name** - name of the KPI definition (e.g. Interface Uilization)
-      - **Window** - Window options for Utilization(%) KPI calculation (e.g Sliding Window, Sliding Period in ms, Window Size in ms)
-      - **Grouping** - Specifies Grouping option on the KPI to be dimension (e.g. Device or Location)
-      - **Metrics** - Selects metrics for KPI calculation (e.g. Speed IN bytes/sec, Speed OUT bytes/sec)
-      - **Expression** - Specifies the Utilization KPI formulae (e.g. PERCENTAGE(DIV(AVG(Speed OUT for last 5 mins)/Interface speed)))
-4. KPI Admin Saves the KPI Definition and message pops up stating **KPI is sucessfully saved**.
-5. Newly defined KPI is shown in the Activity Feed of KPI Definitions.
+- Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
 
-*Note- client side validation need to be available to assist the user*
+- Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
 
-###User Story #5 - View KPI Definition ###
-1. KPI Admin logs into the KPI Engine.
-2. Home screen shows *KPI Activity Feed* of pre-defined KPI Defintions and KPI Streams available for use.
-3. KPI Admin clicks on the KPI Definition or KPI Stream to view them.
+![Interface Utilization Details](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface_Utilization_Details.png)
 
+- On the same chart, show the interface utilization traffic based on various categories
 
-### User Story #6 - Copy existing KPI Definition ###
-1. KPI Administrator logs into the KPI Engine.
-2. Home screen shows *KPI Activity Feed* list of KPI Definitions and KPI Streams available in the KPI engine.
-3. KPI Admin clicks on the KPI Definition or KPI Stream to view them.
-4. KPI Admin clicks on the Clone or Copy KPI definition 
-5. Saves the KPI definition under a new name.
+![Interface Utilization Details Categorized](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Utilization_Details_Categorized.png)
 
-### USer Story #7 - Create new KPI Stream ###
-1. KPI Administrator logs into the KPI Engine.
-2. Home screen shows **KPI Activity Feed** shows list of KPI Definitions and KPI Streams available in the KPI engine.
-3. KPI Admin clicks on **Create KPI Stream** button
-4. KPI Stream Definition screen shows pre-configured KPI Definition  (e.g. Interface Utilization)
-5. KPI Stream Definition screen **shows various input components (e.g. KAFKA, File, Influx DB, Cassandra DB)** available as input to KPI computation.
-5. KPI Stream Definition screen **shows various output components (e.g. KAFKA, File, Influx DB, Cassandra DB)** available as destinations to publish the computed KPI's.
-6. KPI Admin **drags and drops relavent input components, KPI Definition(s) and output components** for wiring KPI Stream for computing Interface Utilization KPI. KPI admin feeds input:
-       - **Input Component** - NetFlow Data Source available on KAFKA Topic Name (NetFlow Performance), Format of Data (NetFlow Format) and Kafka Broker Details (Host Name or IP address, port etc.)
-       - **KPI Definition** - Utilization KPI Definition 
-       - **Output Component** - Cassandra or Influx or KAfka Component with relavent details
-7. KPI Admin **wires Components** (NetFlow Performance) -> KPI Definition (Utilization) -> Output Component to create stream definition.
-8. KPI Admin also Inputs a name of the Stream Definition
-9. KPI Admin inputs any User Defined Tags to tag the computed KPI's (Optional)
-8. KPI Admin clicks **Deploy** button to deploy the stream.
-9. Message shown "Sucessfully Deployed" or "Error Message..."???
 
 ### Deliverable(s) ###
 
@@ -240,21 +208,7 @@ TS#     			Metric      		Value	Tags
    - Downsample K4M computed 5 min KPI's to every 1 hour, 1 day and 1 week
    - Downsample raw metrics from the collector every 1 hour, 1 day and 1week
    
-9. Grafana is configured to show following reports:
-
-- Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
-
-![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
-
-- Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
-
-- Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
-
-![Interface Utilization Details](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface_Utilization_Details.png)
-
-- On the same chart, show the interface utilization traffic based on various categories
-
-![Interface Utilization Details Categorized](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Utilization_Details_Categorized.png)
+9. Grafana is configured to show Utilization Traffic Pattern dashboard
 
 10. Alerting rules in Grafana is configured to trigger WARNING Alert when Out Utilization > 50% for 30 mins for last hour.
 
