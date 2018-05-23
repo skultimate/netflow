@@ -119,7 +119,7 @@ What are the development User Stories?
     "unit" : "nb",
     "vstatus" : "active",
     "ip" : "10.31.119.134",
-    "name" : "numFlowsNF",
+    "name" : "inBytes",
     "source" : "Netflow",
     "bunit" : "Default",
     "direction" : "0",
@@ -129,7 +129,7 @@ What are the development User Stories?
     "numFlowsNF" : {
       "properties" : {
         "unit" : "nb",
-        "name" : "numFlowsNF"
+        "name" : "inBytes"
       },
       "value" : 30.0
     }
