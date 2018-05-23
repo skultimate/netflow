@@ -73,6 +73,7 @@ What are the development User Stories?
 
 ### User Story #3 - View Utilization KPI's in Dashboard ###
 1. Show data points of IN and OUT Utilization(%) traffic for last hour in a table and time series dotted plot for specific Interface in a device.
+
 2.Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
 
 ![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
