@@ -71,7 +71,7 @@ What are the development User Stories?
 4. Compute 95th percentile(Utilization IN(%) per 5min) and 95th percentile(Utilization OUT(%) per 5 min) for last 1 hour.
 5. Compute Standard Deviation (Utilization IN(%) per 5min) and 95th percentile(Utilization OUT(%) per 5 min) for last 1 hour.
 
-### User Story #3 - View KPI's in Dashboard ###
+### User Story #3 - View Utilization KPI's in Dashboard ###
 1. Show data points of IN and OUT Utilization(%) traffic for last hour in a table and time series dotted plot for specific Interface in a device.
 2. Show  Avg, Max, IN and OUT Utilization(%) traffic for last 1 hour in a table for or specific Interface in a device.
 
@@ -88,6 +88,11 @@ What are the development User Stories?
 - On the same chart, show the interface utilization traffic based on various categories
 
 ![Interface Utilization Details Categorized](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Utilization_Details_Categorized.png)
+
+![Interface Utilization Details Categorized By Speed](https://github.com/skultimate/netflow/blob/master/dashboard-examples/TopNInterfacesBySpeed.png)
+
+
+![Interface Utilization Details Categorized By Speed](https://github.com/skultimate/netflow/blob/master/dashboard-examples/TopNInterfacesByUtilization.png)
 
 
 ### Deliverable(s) ###
