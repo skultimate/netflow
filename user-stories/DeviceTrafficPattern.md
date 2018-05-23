@@ -11,7 +11,7 @@ NoC operator in a datacenter
 
 What do they need?
 ---------------------
-As an operator in a NoC, I would like to monitor **Utilization** of interfaces of all critical devices  (X switches, X routers, X hosts etc.)  in my branch location(s) conneced to LAN/ WAN network based on various KPI’s (IN Utilization (%), OUT Utilization (%), Max Utilization(%) etc.) calculated every 5 mins in near real-time, so that they can proactively trigger **"Excessive Utilization"** alerts if the interface utilization crosses above threshold of 50 percent. The subscribers of "Excessive Utilization" alert could be the following downstream service(s):
+As an operator in a NoC, I would like to monitor **Utilization** of interfaces of all critical devices  (X switches, X routers)  in my branch location(s) conneced to LAN/ WAN network based on various KPI’s (IN Utilization (%), OUT Utilization (%), Max Utilization(%) etc.) calculated every 5 mins in near real-time, so that they can proactively trigger **"Excessive Utilization"** alerts if the interface utilization crosses above threshold of 50 percent. The subscribers of "Excessive Utilization" alert could be the following downstream service(s):
 
 - **RCA Service** correlating  "Excessive Interface Utilization" to failures/exceptions in the network. 
 - **Topology Service** identifing tenant services and applications.  
@@ -71,40 +71,39 @@ What are the development User Stories?
 4. Compute 95th percentile(Utilization IN(%) per 5min) and 95th percentile(Utilization OUT(%) per 5 min) for last 1 hour.
 5. Compute Standard Deviation (Utilization IN(%) per 5min) and 95th percentile(Utilization OUT(%) per 5 min) for last 1 hour.
 
-### User Story #3 - View Utilization KPI's in Dashboard ###
-1.Show data points of IN and OUT Utilization(%) traffic for last hour in a table and time series dotted plot for specific Interface in a device.
+### User Story #3 - View Utilization KPI's for specfic location in Dashboard ###
+1.Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
 
-2.Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
 ![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
 
-3.Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
+2.Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
 
-4.Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
+3.Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
 ![Interface Utilization Details](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface_Utilization_Details.png)
 
-5.On the same chart, show the interface utilization traffic based on various categories
+4.On the same chart, show the interface utilization traffic based on various categories
+
+**Interfaces Utilization Details**
+
 ![Interface Utilization Details Categorized](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Utilization_Details_Categorized.png)
 
-**Top N Interfaces by Speed**
+**Top N Interfaces by Speed by Location**
 
 ![Interface Utilization Details Categorized By Speed](https://github.com/skultimate/netflow/blob/master/dashboard-examples/TopNInterfacesBySpeed.png)
 
-**Top N Interfaces by Utilization**
+**Top N Interfaces by Utilization by Location**
 
 ![Interface Utilization Details Categorized By Speed](https://github.com/skultimate/netflow/blob/master/dashboard-examples/TopNInterfacesByUtilization.png)
 
 
 ### Deliverable(s) ###
 
-1. SAS KPI Analytic Engine components (Flink, K4M Engine and associated components) available as docker container(s).
-2. SAS KPI Analytic Engine will be bundled with few out-of-box Netflow KPI's blueprints.
-3. CRUD of KPI definitions and KPI Streams will be done using GUI interface.
-4. Alternatively, users could access REST Service for CRUD operation of KPI definitions and streams.
-5. Demos will be pre-configured for specific use cases and delivered as docker containers.
-6. Database and Dashboard may be delivered as container(s) as part of demo.
+1. KPI Analytic Engine components (Flink, K4M Engine and associated components) available as docker container(s).
+2. Data Collector pre-configured to collect Netflow metrics available as docker container.
+3. TSDB and Kibana dasboard pre-configured to persist and show Netflow KPI and metrics available as docker container.
 
 
-### Tasks ###
+### Data Flow ###
 
 1. Netflow Data Collector publishes flow data on the KAFKA bus.
 2. Netflow data shall be made available on "PERFORMANCE" topic for subscription. Example of Netflow data on Kafka bus shown below:
@@ -210,9 +209,11 @@ TS#     			Metric      		Value	Tags
 8. OpenTSDB is configured to do the following:
    - Store K4M computed 5 min KPI
    - Downsample K4M computed 5 min KPI's to every 1 hour, 1 day and 1 week
-   - Downsample raw metrics from the collector every 1 hour, 1 day and 1week
+   - Downsample raw metrics from the collector every 1 hour, 1 day and 1 week
    
 9. Grafana is configured to show Utilization Traffic Pattern dashboard
+
+Note: Refer **View Utilization KPI's in Dashboard** section to for more details*
 
 10. Alerting rules in Grafana is configured to trigger WARNING Alert when Out Utilization > 50% for 30 mins for last hour.
 
