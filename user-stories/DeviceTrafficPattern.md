@@ -73,19 +73,17 @@ What are the development User Stories?
 
 ### User Story #3 - View Utilization KPI's in Dashboard ###
 1. Show data points of IN and OUT Utilization(%) traffic for last hour in a table and time series dotted plot for specific Interface in a device.
-2. Show  Avg, Max, IN and OUT Utilization(%) traffic for last 1 hour in a table for or specific Interface in a device.
-
-- Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
+2.Show heatmap of interfaces in the network (for last 5 mins/ 1 hour)
 
 ![HeatMap of Interface Utilization](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface-Utilization-HeatMap.png)
 
-- Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
+3. Hovering on the tile of the heatmap shows the summarized information of Interace Name (e.g. Gigabit Ethernet 0/1, Associated Device (e.g. Router-Datacenter-IPSA-ASA), Status: (Active, Unknown)
 
-- Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
+4. Clicking on the tile shall show the traffic pattern of the Interface in TimeSeries chart for last 1 hour averged every 5 min.
 
 ![Interface Utilization Details](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Interface_Utilization_Details.png)
 
-- On the same chart, show the interface utilization traffic based on various categories
+5. On the same chart, show the interface utilization traffic based on various categories
 
 ![Interface Utilization Details Categorized](https://github.com/skultimate/netflow/blob/master/dashboard-examples/Utilization_Details_Categorized.png)
 
